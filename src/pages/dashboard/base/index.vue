@@ -1,14 +1,15 @@
 <template>
-  <div>
-    <!-- 顶部 card  -->
-    <top-panel class="row-container" />
-    <!-- 中部图表  -->
-    <middle-chart class="row-container" />
-    <!-- 列表排名 -->
-    <rank-list class="row-container" />
-    <!-- 出入库概览 -->
-    <output-overview class="row-container" />
-  </div>
+  <t-space direction="vertical">
+    <t-row :gutter="16">
+      <t-col :span="3" v-for="item in threeExample" :key="item.key">
+        <t-card theme="poster2" class="card" @click="cardClickHandle(item.path)">
+          <template #footer>
+            <t-comment :content="item.title"/>
+          </template>
+        </t-card>
+      </t-col>
+    </t-row>
+  </t-space>
 </template>
 
 <script lang="ts">
@@ -18,17 +19,22 @@ export default {
 </script>
 
 <script setup lang="ts">
-import TopPanel from './components/TopPanel.vue';
-import MiddleChart from './components/MiddleChart.vue';
-import RankList from './components/RankList.vue';
-import OutputOverview from './components/OutputOverview.vue';
+import {useRouter} from 'vue-router'
+import {threeExample} from "@/config/threeExample";
+
+const router = useRouter()
+
+const cardClickHandle = (path) => {
+  router.push({
+    path
+  })
+}
+
 </script>
 
 <style scoped>
-.row-container:not(:last-child) {
-  margin-bottom: 16px;
-}
-:deep() .t-card__body {
-  padding-top: 0;
+.card {
+  width: 400px;
+  cursor: pointer;
 }
 </style>
