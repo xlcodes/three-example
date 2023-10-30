@@ -1,24 +1,15 @@
-import {onMounted, onUnmounted, ref} from "vue";
 import * as THREE from 'three'
-import Stats from 'three/examples/jsm/libs/stats.module.js';
-import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls.js';
 import {RoomEnvironment} from 'three/examples/jsm/environments/RoomEnvironment.js';
 import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader.js';
 import {DRACOLoader} from 'three/examples/jsm/loaders/DRACOLoader.js';
+import {useThreeBase} from "@/hooks/useThreeBase";
 
 export const useThree = () => {
 
+  const { scene, stats, camera, renderer, controls, clock } = useThreeBase()
+
   let mixer;
 
-  // three内置时间对象
-  const clock = new THREE.Clock()
-  // 性能工具
-  const stats = new Stats()
-
-  // 渲染器
-  const renderer = new THREE.WebGLRenderer({
-    antialias: true, // 抗锯齿
-  })
   // 渲染器设置像素比
   renderer.setPixelRatio(window.devicePixelRatio || 1)
   // 重新执行渲染
@@ -26,18 +17,15 @@ export const useThree = () => {
 
   // Mipmapped辐射环境贴图(PMREM)
   const pmremGenerator = new THREE.PMREMGenerator(renderer)
-  // 场景
-  const scene = new THREE.Scene()
+
   // 场景颜色
   scene.background = new THREE.Color(0xbfe3dd)
   // 设置环境贴图
   scene.environment = pmremGenerator.fromScene(new RoomEnvironment(renderer), 0.04).texture
-  // 透视相机
-  const camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 1, 100)
+
   // 设置相机位置
   camera.position.set(5, 2, 8)
-  // 设置轨道控制器
-  const controls = new OrbitControls(camera, renderer.domElement)
+
   // 设置控制器的焦点
   controls.target.set(0, 0.5, 0)
   // 更新控制器
