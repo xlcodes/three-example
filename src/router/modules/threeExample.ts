@@ -1,6 +1,3 @@
-import Layout from '@/layouts/index.vue';
-import DashboardIcon from '@/assets/assets-slide-dashboard.svg';
-
 export default [
   {
     path: '/webgl',
@@ -11,7 +8,18 @@ export default [
         path: 'animation/keyframes',
         name: 'WebglAnimationKeyframes',
         component: () => import('@/pages/three/example/WebglAnimationKeyframes/index.vue'),
-        meta: {title: 'keyframes'},
+        meta: {title: 'Keyframes'},
+      }, {
+        path: 'animation/skinning_blending',
+        name: 'WebglAnimationSkinningBlending',
+        component: () => import('@/pages/three/example/WebglAnimationSkinningBlending/index.vue'),
+        meta: {title: 'SkinningBlending'},
+      },
+      {
+        path: 'animation/skinning_additive_blending',
+        name: 'WebglAnimationSkinningAdditiveBlending',
+        component: () => import('@/pages/three/example/WebglAnimationSkinningAdditiveBlending/index.vue'),
+        meta: {title: 'SkinningAdditiveBlending'},
       }
     ],
   }

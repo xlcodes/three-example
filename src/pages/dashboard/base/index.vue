@@ -1,7 +1,7 @@
 <template>
   <t-space direction="vertical">
     <t-row :gutter="16">
-      <t-col :span="3" v-for="item in threeExample" :key="item.key">
+      <t-col :span="4" v-for="item in threeExample" :key="item.key">
         <t-card theme="poster2" class="card" @click="cardClickHandle(item.path)">
           <template #footer>
             <t-comment :content="item.title"/>

@@ -2,6 +2,7 @@ import * as THREE from 'three'
 import Stats from 'three/examples/jsm/libs/stats.module.js'
 import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls.js'
 import {GLTFLoader} from "three/examples/jsm/loaders/GLTFLoader"
+import {GUI} from "three/examples/jsm/libs/lil-gui.module.min";
 
 /**
  * 生成 three 必要参数
@@ -23,6 +24,8 @@ export const useThreeBase = () => {
   const controls = new OrbitControls(camera, renderer.domElement)
   // GLTF 加载器
   const loader = new GLTFLoader()
+  // GUI 控制器
+  const gui = new GUI()
 
   renderer.setPixelRatio(window.devicePixelRatio || 1)
   renderer.setSize(window.innerWidth, window.innerHeight)
