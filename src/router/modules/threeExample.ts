@@ -20,6 +20,12 @@ export default [
         name: 'WebglAnimationSkinningAdditiveBlending',
         component: () => import('@/pages/three/example/WebglAnimationSkinningAdditiveBlending/index.vue'),
         meta: {title: 'SkinningAdditiveBlending'},
+      },
+      {
+        path: 'animation/skinning_morph',
+        name: 'WebglAnimationSkinningMorph',
+        component: () => import('@/pages/three/example/WebglAnimationSkinningMorph/index.vue'),
+        meta: {title: 'SkinningMorph'},
       }
     ],
   }

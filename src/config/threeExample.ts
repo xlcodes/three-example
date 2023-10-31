@@ -11,5 +11,9 @@ export const threeExample = [
     title: '【人体动画】',
     key: 'webgl-animation-skinning-additive-blending',
     path: '/webgl/animation/skinning_additive_blending'
+  }, {
+    title: '【可爱机器人】',
+    key: 'webgl-animation-skinning-morph',
+    path: '/webgl/animation/skinning_morph'
   }
 ]

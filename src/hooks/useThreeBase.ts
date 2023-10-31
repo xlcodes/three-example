@@ -3,11 +3,18 @@ import Stats from 'three/examples/jsm/libs/stats.module.js'
 import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls.js'
 import {GLTFLoader} from "three/examples/jsm/loaders/GLTFLoader"
 import {GUI} from "three/examples/jsm/libs/lil-gui.module.min";
+import {reactive} from "vue";
 
 /**
  * 生成 three 必要参数
  */
 export const useThreeBase = () => {
+  // GLFT 加载对象
+  const GLFTLoading = reactive({
+    loadText: '',
+    loading: false
+  })
+
   // 性能加载器
   const stats = new Stats()
   // 时间对象
@@ -37,6 +44,7 @@ export const useThreeBase = () => {
     stats,
     controls,
     loader,
-    clock
+    clock,
+    GLFTLoading,
   }
 }

@@ -36,5 +36,6 @@ const cardClickHandle = (path) => {
 .card {
   width: 400px;
   cursor: pointer;
+  margin-bottom: 24px;
 }
 </style>
