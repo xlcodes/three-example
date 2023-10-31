@@ -1,12 +1,14 @@
-import { ConfigEnv, UserConfig, loadEnv } from 'vite';
-import { viteMockServe } from 'vite-plugin-mock';
-import createVuePlugin from '@vitejs/plugin-vue';
+import { ConfigEnv, UserConfig, loadEnv } from 'vite'
+import { viteMockServe } from 'vite-plugin-mock'
+import createVuePlugin from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx';
-import svgLoader from 'vite-svg-loader';
+import svgLoader from 'vite-svg-loader'
+import {createHtmlPlugin} from "vite-plugin-html"
+import VersionInfo from './viteCommon/versionInfo'
 
-import path from 'path';
+import path from 'path'
 
-const CWD = process.cwd();
+const CWD = process.cwd()
 
 // https://vitejs.dev/config/
 export default ({ mode }: ConfigEnv): UserConfig => {
@@ -39,6 +41,20 @@ export default ({ mode }: ConfigEnv): UserConfig => {
         localEnabled: true,
       }),
       svgLoader(),
+      createHtmlPlugin({
+        minify: true,
+        pages: [
+          {
+            filename: 'index.html',
+            template: 'index.html',
+            injectOptions: {
+              data: {
+                injectScript: `<script>window.versionInfo = ${JSON.stringify(VersionInfo)}</script>`
+              },
+            },
+          },
+        ]
+      })
     ],
 
     server: {
