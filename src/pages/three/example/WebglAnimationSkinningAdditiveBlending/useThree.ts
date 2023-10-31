@@ -1,6 +1,7 @@
 import * as THREE from 'three'
-import {useThreeBase} from "@/hooks/useThreeBase";
-import {GUI} from "three/examples/jsm/libs/lil-gui.module.min";
+import {useThreeBase} from "@/hooks/useThreeBase"
+import {getGUIStore} from "@/store/modules/gui";
+import {onUnmounted} from "vue";
 
 export const useThree = () => {
   const {
@@ -12,6 +13,8 @@ export const useThree = () => {
     loader,
     controls,
   } = useThreeBase()
+
+  const guiStore = getGUIStore()
 
   let model, skeleton, mixer;
 
@@ -150,7 +153,10 @@ export const useThree = () => {
   }
 
   const createPanel = () => {
-    const panel = new GUI({width: 310}).title('参数控制')
+    guiStore.createGUI({width: 310})
+    const panel = guiStore.GUI
+    panel.title('参数控制')
+
     // 添加分组
     const folder1 = panel.addFolder('Base Actions').title('基础动作')
     const folder2 = panel.addFolder('Additive Action Weights').title('附加作用权重')
@@ -331,6 +337,10 @@ export const useThree = () => {
     // 渲染器重新设置大小
     renderer.setSize(window.innerWidth, window.innerHeight)
   }
+
+  onUnmounted(() => {
+    guiStore.destroyGUI()
+  })
 
   return {
     renderer,

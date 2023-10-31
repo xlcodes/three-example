@@ -1,8 +1,12 @@
 import {useThreeBase} from "@/hooks/useThreeBase"
 import * as THREE from 'three'
-import {GUI} from 'three/examples/jsm/libs/lil-gui.module.min'
+import {getGUIStore} from "@/store/modules/gui"
+import {onUnmounted} from "vue";
 
 export const useThree = () => {
+
+  const guiStore = getGUIStore()
+
   const {
     scene,
     stats,
@@ -134,7 +138,9 @@ export const useThree = () => {
       Sad: '伤心'
     }
 
-    const gui = new GUI()
+    guiStore.createGUI({})
+
+    guiStore.GUI.title('参数控制')
 
     mixer = new THREE.AnimationMixer(model)
 
@@ -150,7 +156,7 @@ export const useThree = () => {
       }
     }
 
-    const statesFolder = gui.addFolder('States').title('当前状态')
+    const statesFolder = guiStore.GUI.addFolder('States').title('当前状态')
 
     const clipCtrl = statesFolder.add(api, 'state').name('所处状态').options(statesText)
 
@@ -160,7 +166,7 @@ export const useThree = () => {
 
     statesFolder.open()
 
-    const emoteFolder = gui.addFolder('Emotes').title('动作')
+    const emoteFolder = guiStore.GUI.addFolder('Emotes').title('动作')
 
     const createEmoteCallback = (name) => {
       api[name] = () => {
@@ -185,7 +191,7 @@ export const useThree = () => {
     const face = model.getObjectByName('Head_4')
 
     const expressions = Object.keys(face.morphTargetDictionary)
-    const expressionFolder = gui.addFolder('Expressions').title('表情控制')
+    const expressionFolder = guiStore.GUI.addFolder('Expressions').title('表情控制')
 
     for (let i = 0; i < expressions.length; i++) {
       expressionFolder
@@ -198,6 +204,10 @@ export const useThree = () => {
 
     expressionFolder.open()
   }
+
+  onUnmounted(() => {
+    guiStore.destroyGUI()
+  })
 
   return {
     renderer,
