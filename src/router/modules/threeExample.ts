@@ -26,6 +26,12 @@ export default [
         name: 'WebglAnimationSkinningMorph',
         component: () => import('@/pages/three/example/WebglAnimationSkinningMorph/index.vue'),
         meta: {title: 'SkinningMorph'},
+      },
+      {
+        path: 'camera',
+        name: 'WebglCamera',
+        component: () => import('@/pages/three/example/WebglCamera/index.vue'),
+        meta: {title: 'SkinningMorph'},
       }
     ],
   }

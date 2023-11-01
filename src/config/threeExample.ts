@@ -15,5 +15,9 @@ export const threeExample = [
     title: '【可爱机器人】',
     key: 'webgl-animation-skinning-morph',
     path: '/webgl/animation/skinning_morph'
+  }, {
+    title: '【相机】',
+    key: 'webgl-camera',
+    path: '/webgl/camera',
   }
 ]
