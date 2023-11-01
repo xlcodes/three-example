@@ -2,7 +2,7 @@ import * as THREE from 'three'
 import Stats from 'three/examples/jsm/libs/stats.module.js'
 import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls.js'
 import {GLTFLoader} from "three/examples/jsm/loaders/GLTFLoader"
-import {reactive} from "vue"
+import {onMounted, onUnmounted, reactive} from "vue"
 
 /**
  * 生成 three 必要参数
@@ -33,6 +33,26 @@ export const useThreeBase = () => {
 
   renderer.setPixelRatio(window.devicePixelRatio || 1)
   renderer.setSize(window.innerWidth, window.innerHeight)
+
+  /**
+   * 重置窗口函数
+   */
+  const resizeHandle = () => {
+    // 重置相机的宽高比
+    camera.aspect = window.innerWidth / window.innerHeight;
+    // 重置相机矩阵
+    camera.updateProjectionMatrix();
+    // 重新渲染
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  }
+
+  onMounted(() => {
+    window.addEventListener('resize', resizeHandle)
+  })
+
+  onUnmounted(() => {
+    window.removeEventListener('resize', resizeHandle)
+  })
 
   return {
     scene,

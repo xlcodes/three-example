@@ -85,13 +85,6 @@ export const useThree = () => {
     stats.update()
   }
 
-  const resizeHandle = () => {
-    camera.aspect = window.innerWidth / window.innerHeight
-    camera.updateProjectionMatrix()
-
-    renderer.setSize(window.innerWidth, window.innerHeight)
-  }
-
   const fadeToAction = (name, duration) => {
     previousAction = activeAction
     activeAction = actions[name]
@@ -212,7 +205,6 @@ export const useThree = () => {
   return {
     renderer,
     stats,
-    resizeHandle,
     init,
     animate,
     GLFTLoading,

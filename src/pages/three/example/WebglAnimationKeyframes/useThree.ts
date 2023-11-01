@@ -78,22 +78,10 @@ export const useThree = () => {
     renderer.render(scene, camera);
   }
 
-  /**
-   * 重置窗口函数
-   */
-  const resizeHandle = () => {
-    // 重置相机的宽高比
-    camera.aspect = window.innerWidth / window.innerHeight;
-    // 重置相机矩阵
-    camera.updateProjectionMatrix();
-    // 重新渲染
-    renderer.setSize(window.innerWidth, window.innerHeight);
-  }
 
 
   return {
     stats,
     renderer,
-    resizeHandle,
   }
 }

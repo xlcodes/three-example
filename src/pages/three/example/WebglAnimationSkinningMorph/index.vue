@@ -4,12 +4,10 @@
 </template>
 
 <script setup lang="ts">
-import {onMounted, onUnmounted, ref} from "vue";
+import {onMounted, ref} from "vue";
 import {useThree} from './useThree'
-
 const threeElRef = ref<HTMLDivElement>()
-
-const {renderer, stats, init, animate, resizeHandle, GLFTLoading} = useThree()
+const {renderer, stats, init, animate, GLFTLoading} = useThree()
 
 onMounted(() => {
   if (threeElRef.value) {
@@ -18,14 +16,7 @@ onMounted(() => {
     threeElRef.value.appendChild(renderer.domElement)
     threeElRef.value.appendChild(stats.dom)
   }
-
-  window.addEventListener('resize', resizeHandle)
 })
-
-onUnmounted(() => {
-  window.removeEventListener('resize', resizeHandle)
-})
-
 </script>
 
 <style scoped lang="less">

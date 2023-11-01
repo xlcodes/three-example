@@ -4,10 +4,10 @@
 
 <script setup lang="ts">
 import {useThree} from './useThree'
-import {onMounted, onUnmounted, ref} from "vue";
+import {onMounted, ref} from "vue";
 
 const threeElRef = ref<HTMLDivElement>()
-const { stats, renderer, resizeHandle, } = useThree()
+const { stats, renderer } = useThree()
 
 onMounted(() => {
   if (threeElRef.value) {
@@ -16,13 +16,6 @@ onMounted(() => {
     // 添加渲染器
     threeElRef.value?.appendChild(renderer.domElement)
   }
-  // 监听窗口变化
-  window.addEventListener('resize', resizeHandle)
-})
-
-onUnmounted(() => {
-  // 移除监听函数
-  window.removeEventListener('resize', resizeHandle)
 })
 </script>
 

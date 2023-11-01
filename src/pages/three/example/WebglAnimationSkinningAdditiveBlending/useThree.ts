@@ -149,7 +149,6 @@ export const useThree = () => {
     controls.target.set(0, 1, 0)
     controls.update()
 
-    window.addEventListener('resize', onWindowResize)
   }
 
   const createPanel = () => {
@@ -324,18 +323,6 @@ export const useThree = () => {
     action.setEffectiveTimeScale(1)
     // 设置权重（weight）以及停止所有淡入淡出
     action.setEffectiveWeight(weight)
-  }
-
-  /**
-   * 监听窗口变化
-   */
-  const onWindowResize = () => {
-    // 重置相机视锥体长宽比
-    camera.aspect = window.innerWidth / window.innerHeight
-    // 重置相机矩阵
-    camera.updateProjectionMatrix()
-    // 渲染器重新设置大小
-    renderer.setSize(window.innerWidth, window.innerHeight)
   }
 
   onUnmounted(() => {
