@@ -8,31 +8,38 @@ export default [
         path: 'animation/keyframes',
         name: 'WebglAnimationKeyframes',
         component: () => import('@/pages/three/example/WebglAnimationKeyframes/index.vue'),
-        meta: {title: 'Keyframes'},
-      }, {
+        meta: { title: 'Keyframes' },
+      },
+      {
         path: 'animation/skinning_blending',
         name: 'WebglAnimationSkinningBlending',
         component: () => import('@/pages/three/example/WebglAnimationSkinningBlending/index.vue'),
-        meta: {title: 'SkinningBlending'},
+        meta: { title: 'SkinningBlending' },
       },
       {
         path: 'animation/skinning_additive_blending',
         name: 'WebglAnimationSkinningAdditiveBlending',
         component: () => import('@/pages/three/example/WebglAnimationSkinningAdditiveBlending/index.vue'),
-        meta: {title: 'SkinningAdditiveBlending'},
+        meta: { title: 'SkinningAdditiveBlending' },
       },
       {
         path: 'animation/skinning_morph',
         name: 'WebglAnimationSkinningMorph',
         component: () => import('@/pages/three/example/WebglAnimationSkinningMorph/index.vue'),
-        meta: {title: 'SkinningMorph'},
+        meta: { title: 'SkinningMorph' },
       },
       {
         path: 'camera',
         name: 'WebglCamera',
         component: () => import('@/pages/three/example/WebglCamera/index.vue'),
-        meta: {title: 'SkinningMorph'},
-      }
+        meta: { title: 'SkinningMorph' },
+      },
+      {
+        path: 'camera/array',
+        name: 'WebglCameraArray',
+        component: () => import('@/pages/three/example/WebglCameraArray/index.vue'),
+        meta: { title: 'WebglCameraArray' },
+      },
     ],
-  }
+  },
 ];

@@ -8,14 +8,13 @@ import { useThree } from './useThree';
 
 const threeElRef = ref<HTMLDivElement>();
 
-const { renderer, stats, init, animate } = useThree();
+const { renderer, init, animate } = useThree();
 
 onMounted(() => {
   if (threeElRef.value) {
     init();
     animate();
     threeElRef.value.appendChild(renderer.domElement);
-    threeElRef.value.appendChild(stats.dom);
   }
 });
 </script>

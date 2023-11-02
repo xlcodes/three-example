@@ -26,7 +26,13 @@ yarn build
 - [ ] webgl_animation_skinning_ik
 - [x] webgl_animation_skinning_morph
 - [ ] webgl_animation_multiple
-- [ ] webgl_camera
+- [x] webgl_camera
 - [ ] webgl_camera_array
 - [ ] webgl_camera_cinematic
 - [ ] webgl_camera_logarithmicdepthbuffer
+- [ ] webgl_clipping
+- [ ] webgl_clipping_advanced
+- [ ] webgl_clipping_intersection
+- [ ] webgl_clipping_stencil
+- [ ] webgl_decals
+- [ ] webgl_depth_texture
