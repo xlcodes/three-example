@@ -25,7 +25,7 @@ yarn build
 - [X] webgl_animation_skinning_additive_blending
 - [ ] webgl_animation_skinning_ik
 - [x] webgl_animation_skinning_morph
-- [ ] webgl_animation_multiple
+- [x] webgl_animation_multiple
 - [x] webgl_camera
 - [ ] webgl_camera_array
 - [ ] webgl_camera_cinematic

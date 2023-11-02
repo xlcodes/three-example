@@ -29,6 +29,12 @@ export default [
         meta: { title: 'SkinningMorph' },
       },
       {
+        path: 'animation/multiple',
+        name: 'WebglAnimationMultiple',
+        component: () => import('@/pages/three/example/WebglAnimationMultiple/index.vue'),
+        meta: { title: 'Multiple' },
+      },
+      {
         path: 'camera',
         name: 'WebglCamera',
         component: () => import('@/pages/three/example/WebglCamera/index.vue'),

@@ -1,11 +1,11 @@
 <template>
-  <div class="threeEl" ref="threeElRef"></div>
+  <div ref="threeElRef" class="threeEl"></div>
 </template>
 
 <script setup lang="ts">
-import {onMounted, onUnmounted, ref} from "vue";
+import { ref } from 'vue';
 
-const threeElRef = ref<HTMLDivElement>()
+const threeElRef = ref<HTMLDivElement>();
 </script>
 
 <style scoped lang="less">

@@ -1,24 +1,23 @@
 <template>
-  <div class="threeEl" ref="threeElRef"></div>
+  <div ref="threeElRef" class="threeEl"></div>
 </template>
 
 <script setup lang="ts">
-import {onMounted, onUnmounted, ref} from "vue"
-import {useThree} from './useThree'
+import { onMounted, ref } from 'vue';
+import { useThree } from './useThree';
 
-const threeElRef = ref<HTMLDivElement>()
+const threeElRef = ref<HTMLDivElement>();
 
-const {renderer, stats, init} = useThree()
+const { renderer, stats, init } = useThree();
 
 onMounted(() => {
   if (threeElRef.value) {
+    init();
 
-    init()
-
-    threeElRef.value.appendChild(renderer.domElement)
-    threeElRef.value.appendChild(stats.dom)
+    threeElRef.value.appendChild(renderer.domElement);
+    threeElRef.value.appendChild(stats.dom);
   }
-})
+});
 </script>
 
 <style scoped lang="less">

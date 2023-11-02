@@ -20,6 +20,11 @@ export const threeExample = [
     path: '/webgl/animation/skinning_morph',
   },
   {
+    title: '【三个机器人】',
+    key: 'webgl-animation-multiple',
+    path: '/webgl/animation/multiple',
+  },
+  {
     title: '【相机】',
     key: 'webgl-camera',
     path: '/webgl/camera',

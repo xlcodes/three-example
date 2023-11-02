@@ -8,14 +8,13 @@ import { onMounted, ref } from 'vue';
 import { useThree } from './useThree';
 
 const threeElRef = ref<HTMLDivElement>();
-const { renderer, stats, init, animate, GLFTLoading } = useThree();
+
+const { init, animate, GLFTLoading } = useThree();
 
 onMounted(() => {
   if (threeElRef.value) {
-    init();
+    init(threeElRef.value);
     animate();
-    threeElRef.value.appendChild(renderer.domElement);
-    threeElRef.value.appendChild(stats.dom);
   }
 });
 </script>
