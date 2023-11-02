@@ -4,7 +4,6 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import * as SkeletonUtils from 'three/examples/jsm/utils/SkeletonUtils.js';
 import { GUI } from 'three/examples/jsm/libs/lil-gui.module.min.js';
 import { onMounted, onUnmounted, reactive } from 'vue';
-import { debug } from 'util';
 
 export const useThree = () => {
   // GLFT 加载对象
@@ -19,6 +18,7 @@ export const useThree = () => {
   let clock: THREE.Clock;
   let model: THREE.Group;
   let animations;
+  let gui: GUI;
 
   const mixers: THREE.AnimationMixer[] = [];
   const objects = [];
@@ -91,7 +91,7 @@ export const useThree = () => {
     renderer.shadowMap.enabled = true;
     element.appendChild(renderer.domElement);
 
-    const gui = new GUI();
+    gui = new GUI();
 
     gui.add(params, 'sharedSkeleton').onChange(function () {
       clearScene();
@@ -116,7 +116,7 @@ export const useThree = () => {
     for (const object of objects) {
       scene.remove(object);
 
-      scene.traverse((child) => {
+      scene.traverse((child: any) => {
         if (child.isSkinnedMesh) child.skeleton.dispose();
       });
     }
@@ -152,9 +152,9 @@ export const useThree = () => {
     const sharedParentBone = sharedModel.getObjectByName('mixamorigHips');
     scene.add(sharedParentBone);
 
-    const model1 = shareSkinnedMesh.clone();
-    const model2 = shareSkinnedMesh.clone();
-    const model3 = shareSkinnedMesh.clone();
+    const model1: any = shareSkinnedMesh.clone();
+    const model2: any = shareSkinnedMesh.clone();
+    const model3: any = shareSkinnedMesh.clone();
 
     model1.bindMode = THREE.DetachedBindMode;
     model2.bindMode = THREE.DetachedBindMode;
@@ -208,6 +208,11 @@ export const useThree = () => {
 
   onUnmounted(() => {
     window.removeEventListener('resize', onWindowResize);
+
+    if (gui) {
+      gui.destroy();
+      gui = undefined;
+    }
   });
 
   return {
