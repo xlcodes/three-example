@@ -1,6 +1,5 @@
 <template>
   <div ref="threeElRef" class="threeEl"></div>
-  <t-loading :loading="GLFTLoading.loading" :text="GLFTLoading.loadText" fullscreen />
 </template>
 
 <script setup lang="ts">
@@ -9,14 +8,12 @@ import { useThree } from './useThree';
 
 const threeElRef = ref<HTMLDivElement>();
 
-const { renderer, stats, init, GLFTLoading } = useThree();
+const { init, animate } = useThree();
 
 onMounted(() => {
   if (threeElRef.value) {
-    init();
-
-    threeElRef.value.appendChild(renderer.domElement);
-    threeElRef.value.appendChild(stats.dom);
+    init(threeElRef.value);
+    animate();
   }
 });
 </script>

@@ -1,33 +1,38 @@
-import * as THREE from 'three'
-import {RoomEnvironment} from 'three/examples/jsm/environments/RoomEnvironment.js';
-import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader.js';
-import {DRACOLoader} from 'three/examples/jsm/loaders/DRACOLoader.js';
-import {useThreeBase} from "@/hooks/useThreeBase";
+import * as THREE from 'three';
+import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
+import { reactive } from 'vue';
+import { useThreeBase } from '@/hooks/useThreeBase';
 
 export const useThree = () => {
-
-  const { scene, stats, camera, renderer, controls, clock } = useThreeBase()
+  const { scene, stats, camera, renderer, controls, clock } = useThreeBase();
 
   let mixer;
 
   // 渲染器设置像素比
-  renderer.setPixelRatio(window.devicePixelRatio || 1)
+  renderer.setPixelRatio(window.devicePixelRatio || 1);
   // 重新执行渲染
-  renderer.setSize(window.innerWidth, window.innerHeight)
+  renderer.setSize(window.innerWidth, window.innerHeight);
 
   // Mipmapped辐射环境贴图(PMREM)
-  const pmremGenerator = new THREE.PMREMGenerator(renderer)
+  const pmremGenerator = new THREE.PMREMGenerator(renderer);
+
+  const GLFTLoading = reactive({
+    loadText: '',
+    loading: false,
+  });
 
   // 场景颜色
-  scene.background = new THREE.Color(0xbfe3dd)
+  scene.background = new THREE.Color(0xbfe3dd);
   // 设置环境贴图
-  scene.environment = pmremGenerator.fromScene(new RoomEnvironment(renderer), 0.04).texture
+  scene.environment = pmremGenerator.fromScene(new RoomEnvironment(renderer), 0.04).texture;
 
   // 设置相机位置
-  camera.position.set(5, 2, 8)
+  camera.position.set(5, 2, 8);
 
   // 设置控制器的焦点
-  controls.target.set(0, 0.5, 0)
+  controls.target.set(0, 0.5, 0);
   // 更新控制器
   controls.update();
   // 禁用摄像机平移
@@ -42,26 +47,37 @@ export const useThree = () => {
   const loader = new GLTFLoader();
   // 解码使用KHR_draco_mesh_compression扩展压缩过的文件
   loader.setDRACOLoader(dracoLoader);
-  loader.load('models/gltf/LittlestTokyo.glb', function (gltf) {
-    // 获取模型中的场景
-    const model = gltf.scene;
-    // 设置场景位置
-    model.position.set(1, 1, 0);
-    // 设置缩放
-    model.scale.set(0.01, 0.01, 0.01);
-    // 将模型中的场景添加到当前场景
-    scene.add(model);
-    // 场景中特定对象的动画的播放器对象，控制模型动画播放
-    mixer = new THREE.AnimationMixer(model);
-    // 返回所传入的剪辑参数的AnimationAction并播放动画
-    mixer.clipAction(gltf.animations[0]).play();
-    // 执行轮训动画
-    animate();
-  }, (res) => {
-    // TODO: 在这里做加载器的操作
-  }, function (e) {
-    console.error(e);
-  });
+  GLFTLoading.loading = true;
+  GLFTLoading.loadText = '';
+  loader.load(
+    'models/gltf/LittlestTokyo.glb',
+    function (gltf) {
+      GLFTLoading.loading = false;
+      GLFTLoading.loadText = '';
+      // 获取模型中的场景
+      const model = gltf.scene;
+      // 设置场景位置
+      model.position.set(1, 1, 0);
+      // 设置缩放
+      model.scale.set(0.01, 0.01, 0.01);
+      // 将模型中的场景添加到当前场景
+      scene.add(model);
+      // 场景中特定对象的动画的播放器对象，控制模型动画播放
+      mixer = new THREE.AnimationMixer(model);
+      // 返回所传入的剪辑参数的AnimationAction并播放动画
+      mixer.clipAction(gltf.animations[0]).play();
+      // 执行轮训动画
+      animate();
+    },
+    (xhr) => {
+      GLFTLoading.loadText = `模型加载进度：${Math.floor((xhr.loaded / xhr.total) * 100)}%，请稍等！`;
+    },
+    function (e) {
+      console.error(e);
+      GLFTLoading.loading = false;
+      GLFTLoading.loadText = '';
+    },
+  );
   // 轮训执行动画
   const animate = () => {
     requestAnimationFrame(animate);
@@ -76,12 +92,11 @@ export const useThree = () => {
     stats.update();
     // 重新渲染
     renderer.render(scene, camera);
-  }
-
-
+  };
 
   return {
     stats,
     renderer,
-  }
-}
+    GLFTLoading,
+  };
+};

@@ -46,6 +46,12 @@ export default [
         component: () => import('@/pages/three/example/WebglCameraArray/index.vue'),
         meta: { title: 'WebglCameraArray' },
       },
+      {
+        path: 'camera/cinematic',
+        name: 'WebglCameraCinematic',
+        component: () => import('@/pages/three/example/WebglCameraCinematic/index.vue'),
+        meta: { title: 'WebglCameraCinematic' },
+      },
     ],
   },
 ];

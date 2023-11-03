@@ -1,37 +1,43 @@
 export const threeExample = [
   {
-    title: '【日本小镇】',
+    title: '【webgl_animation_keyframes】',
     key: 'webgl-animation-keyframes',
     path: '/webgl/animation/keyframes',
   },
+  // TODO
+  // {
+  //   title: '【webgl_animation_skinning_blending】',
+  //   key: 'webgl-animation-skinning-blending',
+  //   path: '/webgl/animation/skinning_blending',
+  // },
   {
-    title: '【机器人】',
-    key: 'webgl-animation-skinning-blending',
-    path: '/webgl/animation/skinning_blending',
-  },
-  {
-    title: '【人体动画】',
+    title: '【webgl_animation_skinning_additive_blending】',
     key: 'webgl-animation-skinning-additive-blending',
     path: '/webgl/animation/skinning_additive_blending',
   },
   {
-    title: '【可爱机器人】',
+    title: '【webgl_animation_skinning_morph】',
     key: 'webgl-animation-skinning-morph',
     path: '/webgl/animation/skinning_morph',
   },
   {
-    title: '【三个机器人】',
+    title: '【webgl_animation_multiple】',
     key: 'webgl-animation-multiple',
     path: '/webgl/animation/multiple',
   },
   {
-    title: '【相机】',
+    title: '【webgl_camera】',
     key: 'webgl-camera',
     path: '/webgl/camera',
   },
   {
-    title: '【相机阵列】',
+    title: '【webgl_camera_array】',
     key: 'webgl-camera-array',
     path: '/webgl/camera/array',
+  },
+  {
+    title: '【webgl_camera_cinematic】',
+    key: 'webgl-camera-cinematic',
+    path: '/webgl/camera/cinematic',
   },
 ];

@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { onUnmounted } from 'vue';
+import { onUnmounted, reactive } from 'vue';
 import { useThreeBase } from '@/hooks/useThreeBase';
 import { getGUIStore } from '@/store/modules/gui';
 
@@ -7,6 +7,11 @@ export const useThree = () => {
   const { scene, renderer, camera, stats, clock, loader, controls } = useThreeBase();
 
   const guiStore = getGUIStore();
+
+  const GLFTLoading = reactive({
+    loadText: '',
+    loading: false,
+  });
 
   let model;
   let skeleton;
@@ -78,58 +83,73 @@ export const useThree = () => {
     mesh.receiveShadow = true;
     scene.add(mesh);
 
-    loader.load('models/gltf/Xbot.glb', (gltf) => {
-      model = gltf.scene;
-      scene.add(model);
+    GLFTLoading.loading = true;
+    GLFTLoading.loadText = '';
+    loader.load(
+      'models/gltf/Xbot.glb',
+      (gltf) => {
+        GLFTLoading.loading = false;
+        GLFTLoading.loadText = '';
+        model = gltf.scene;
+        scene.add(model);
 
-      model.traverse((object) => {
-        if (object.isMesh) object.castShadow = true;
-      });
+        model.traverse((object) => {
+          if (object.isMesh) object.castShadow = true;
+        });
 
-      // 用来模拟骨骼 Skeleton 的辅助对象
-      skeleton = new THREE.SkeletonHelper(model);
-      // 骨骼辅助对象不可见
-      skeleton.visible = false;
-      scene.add(skeleton);
+        // 用来模拟骨骼 Skeleton 的辅助对象
+        skeleton = new THREE.SkeletonHelper(model);
+        // 骨骼辅助对象不可见
+        skeleton.visible = false;
+        scene.add(skeleton);
 
-      // 加载动画
-      const { animations } = gltf;
+        // 加载动画
+        const { animations } = gltf;
 
-      // 创建场景中特定对象的动画的播放器
-      mixer = new THREE.AnimationMixer(model);
+        // 创建场景中特定对象的动画的播放器
+        mixer = new THREE.AnimationMixer(model);
 
-      numAnimations = animations.length;
+        numAnimations = animations.length;
 
-      for (let i = 0; i !== numAnimations; ++i) {
-        let clip = animations[i];
-        const { name } = clip;
+        for (let i = 0; i !== numAnimations; ++i) {
+          let clip = animations[i];
+          const { name } = clip;
 
-        if (baseActions[name]) {
-          // 返回所传入的剪辑参数的AnimationAction
-          const action = mixer.clipAction(clip);
-          activateAction(action);
-          baseActions[name].action = action;
-          allActions.push(action);
-        } else if (additiveActions[name]) {
-          // 将给定动画剪辑的关键帧转换为附加格式
-          THREE.AnimationUtils.makeClipAdditive(clip);
+          if (baseActions[name]) {
+            // 返回所传入的剪辑参数的AnimationAction
+            const action = mixer.clipAction(clip);
+            activateAction(action);
+            baseActions[name].action = action;
+            allActions.push(action);
+          } else if (additiveActions[name]) {
+            // 将给定动画剪辑的关键帧转换为附加格式
+            THREE.AnimationUtils.makeClipAdditive(clip);
 
-          if (clip.name.endsWith('_pose')) {
-            // 创建一个新的片段，仅包含所给定帧之间的原始剪辑片段
-            clip = THREE.AnimationUtils.subclip(clip, clip.name, 2, 3, 10);
+            if (clip.name.endsWith('_pose')) {
+              // 创建一个新的片段，仅包含所给定帧之间的原始剪辑片段
+              clip = THREE.AnimationUtils.subclip(clip, clip.name, 2, 3, 10);
+            }
+
+            const action = mixer.clipAction(clip);
+            activateAction(action);
+            additiveActions[name].action = action;
+            allActions.push(action);
           }
-
-          const action = mixer.clipAction(clip);
-          activateAction(action);
-          additiveActions[name].action = action;
-          allActions.push(action);
         }
-      }
 
-      createPanel();
+        createPanel();
 
-      animate();
-    });
+        animate();
+      },
+      (xhr) => {
+        GLFTLoading.loadText = `模型加载进度：${Math.floor((xhr.loaded / xhr.total) * 100)}%，请稍等！`;
+      },
+      (err) => {
+        console.error(err);
+        GLFTLoading.loading = false;
+        GLFTLoading.loadText = '';
+      },
+    );
 
     // 包含阴影贴图的引用
     renderer.shadowMap.enabled = true;
@@ -328,5 +348,6 @@ export const useThree = () => {
     renderer,
     stats,
     init,
+    GLFTLoading,
   };
 };
