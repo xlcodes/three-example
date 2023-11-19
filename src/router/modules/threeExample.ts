@@ -52,6 +52,12 @@ export default [
         component: () => import('@/pages/three/example/WebglCameraCinematic/index.vue'),
         meta: { title: 'WebglCameraCinematic' },
       },
+      {
+        path: 'geometry/cube',
+        name: 'WebglGeometryCube',
+        component: () => import('@/pages/three/example/WebglGeometryCube/index.vue'),
+        meta: { title: 'WebglGeometryCube' },
+      },
     ],
   },
 ];

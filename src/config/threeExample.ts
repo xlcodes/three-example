@@ -40,4 +40,9 @@ export const threeExample = [
     key: 'webgl-camera-cinematic',
     path: '/webgl/camera/cinematic',
   },
+  {
+    title: '【web_geometry_cube】',
+    key: 'web-geometry-cube',
+    path: '/webgl/geometry/cube',
+  },
 ];
