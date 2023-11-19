@@ -58,6 +58,12 @@ export default [
         component: () => import('@/pages/three/example/WebglGeometryCube/index.vue'),
         meta: { title: 'WebglGeometryCube' },
       },
+      {
+        path: 'interactive/voxelpainter',
+        name: 'WebglInteractiveVoxelpainter',
+        component: () => import('@/pages/three/example/WebglInteractiveVoxelpainter/index.vue'),
+        meta: { title: 'WebglInteractiveVoxelpainter' },
+      },
     ],
   },
 ];

@@ -36,3 +36,5 @@ yarn build
 - [ ] webgl_clipping_stencil
 - [ ] webgl_decals
 - [ ] webgl_depth_texture
+- [x] webgl_geometry_cube
+- [x] webgl_interactive_voxelpainter

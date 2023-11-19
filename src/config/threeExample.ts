@@ -45,4 +45,9 @@ export const threeExample = [
     key: 'web-geometry-cube',
     path: '/webgl/geometry/cube',
   },
+  {
+    title: '【webgl_interactive_voxelpainter】',
+    key: 'webgl_interactive_voxelpainter',
+    path: '/webgl/interactive/voxelpainter',
+  },
 ];
