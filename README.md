@@ -38,3 +38,5 @@ yarn build
 - [ ] webgl_depth_texture
 - [x] webgl_geometry_cube
 - [x] webgl_interactive_voxelpainter
+- [x] webgl_loader_gltf
+- [x] webgl_loader_gltf_compressed

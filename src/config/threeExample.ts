@@ -1,7 +1,7 @@
 export const threeExample = [
   {
     title: '【webgl_animation_keyframes】',
-    key: 'webgl-animation-keyframes',
+    key: 'webgl_animation_keyframes',
     path: '/webgl/animation/keyframes',
   },
   // TODO
@@ -12,42 +12,52 @@ export const threeExample = [
   // },
   {
     title: '【webgl_animation_skinning_additive_blending】',
-    key: 'webgl-animation-skinning-additive-blending',
+    key: 'webgl_animation_skinning_additive_blending',
     path: '/webgl/animation/skinning_additive_blending',
   },
   {
     title: '【webgl_animation_skinning_morph】',
-    key: 'webgl-animation-skinning-morph',
+    key: 'webgl_animation_skinning_morph',
     path: '/webgl/animation/skinning_morph',
   },
   {
     title: '【webgl_animation_multiple】',
-    key: 'webgl-animation-multiple',
+    key: 'webgl_animation_multiple',
     path: '/webgl/animation/multiple',
   },
   {
     title: '【webgl_camera】',
-    key: 'webgl-camera',
+    key: 'webgl_camera',
     path: '/webgl/camera',
   },
   {
     title: '【webgl_camera_array】',
-    key: 'webgl-camera-array',
+    key: 'webgl_camera_array',
     path: '/webgl/camera/array',
   },
   {
     title: '【webgl_camera_cinematic】',
-    key: 'webgl-camera-cinematic',
+    key: 'webgl_camera_cinematic',
     path: '/webgl/camera/cinematic',
   },
   {
     title: '【web_geometry_cube】',
-    key: 'web-geometry-cube',
+    key: 'web_geometry_cube',
     path: '/webgl/geometry/cube',
   },
   {
     title: '【webgl_interactive_voxelpainter】',
     key: 'webgl_interactive_voxelpainter',
     path: '/webgl/interactive/voxelpainter',
+  },
+  {
+    title: '【webgl_loader_gltf】',
+    key: 'webgl_loader_gltf',
+    path: '/webgl/loader/gltf',
+  },
+  {
+    title: '【webgl_loader_gltf_compressed】',
+    key: 'webgl_loader_gltf_compressed',
+    path: '/webgl/loader/gltf/compressed',
   },
 ];

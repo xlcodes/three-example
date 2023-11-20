@@ -64,6 +64,18 @@ export default [
         component: () => import('@/pages/three/example/WebglInteractiveVoxelpainter/index.vue'),
         meta: { title: 'WebglInteractiveVoxelpainter' },
       },
+      {
+        path: 'loader/gltf',
+        name: 'WebglLoaderGltf',
+        component: () => import('@/pages/three/example/WebglLoaderGltf/index.vue'),
+        meta: { title: 'WebglLoaderGltf' },
+      },
+      {
+        path: 'loader/gltf/compressed',
+        name: 'WebglLoaderGltfCompressed',
+        component: () => import('@/pages/three/example/WebglLoaderGltfCompressed/index.vue'),
+        meta: { title: 'WebglLoaderGltfCompressed' },
+      },
     ],
   },
 ];

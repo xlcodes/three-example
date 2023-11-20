@@ -1,110 +1,111 @@
 import * as THREE from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { onMounted, onUnmounted } from 'vue';
 
-export const useThree = () => {
-  let camera: THREE.PerspectiveCamera;
-  let scene: THREE.Scene;
-  let renderer: THREE.WebGLRenderer;
-  let controls: OrbitControls;
-  let plane: THREE.Mesh;
-  let pointer: THREE.Vector2;
-  let raycaster: THREE.Raycaster;
-  let isShiftDown = false;
-  let isEdit = false;
+interface IThreeParams {
+  camera: THREE.PerspectiveCamera;
+  scene: THREE.Scene;
+  renderer: THREE.WebGLRenderer;
+  plane: THREE.Mesh;
+  pointer: THREE.Vector2;
+  raycaster: THREE.Raycaster;
+  cubeMaterial: THREE.MeshBasicMaterial;
+  rollOverMesh: THREE.Mesh;
+  cubeGeo: THREE.BoxGeometry;
+  rollOverMaterial: THREE.MeshBasicMaterial;
+  isShiftDown: boolean;
+  isEditor: boolean;
+}
 
-  let rollOverMesh: THREE.Mesh;
-  let rollOverMaterial: THREE.MeshBasicMaterial;
-  let cubeGeo: THREE.BoxGeometry;
-  let cubeMaterial: THREE.MeshBasicMaterial;
+export const useThree = () => {
+  const params: Partial<IThreeParams> = {
+    isEditor: false,
+    isShiftDown: false,
+  };
 
   const objects: Array<THREE.Mesh> = [];
 
   const init = (element: HTMLDivElement) => {
-    camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 10000);
-    camera.position.set(500, 800, 1300);
-    camera.lookAt(0, 0, 0);
+    params.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 10000);
+    params.camera.position.set(500, 800, 1300);
+    params.camera.lookAt(0, 0, 0);
 
-    scene = new THREE.Scene();
-    scene.background = new THREE.Color(0xf0f0f0);
+    params.scene = new THREE.Scene();
+    params.scene.background = new THREE.Color(0xf0f0f0);
 
     const rollOverGeo = new THREE.BoxGeometry(50, 50, 50);
-    rollOverMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000, opacity: 0.5, transparent: true });
-    rollOverMesh = new THREE.Mesh(rollOverGeo, rollOverMaterial);
-    scene.add(rollOverMesh);
+    params.rollOverMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000, opacity: 0.5, transparent: true });
+    params.rollOverMesh = new THREE.Mesh(rollOverGeo, params.rollOverMaterial);
+    params.scene.add(params.rollOverMesh);
 
     const cubeTexture = new THREE.TextureLoader().load('/textures/square-outline-textured.png');
     cubeTexture.colorSpace = THREE.SRGBColorSpace;
 
-    cubeGeo = new THREE.BoxGeometry(50, 50, 50);
-    cubeMaterial = new THREE.MeshBasicMaterial({ color: 0xfeb74c, map: cubeTexture });
+    params.cubeGeo = new THREE.BoxGeometry(50, 50, 50);
+    params.cubeMaterial = new THREE.MeshBasicMaterial({ color: 0xfeb74c, map: cubeTexture });
 
     // 网格辅助对象
     const gridHelper = new THREE.GridHelper(1000, 20);
-    scene.add(gridHelper);
+    params.scene.add(gridHelper);
 
-    raycaster = new THREE.Raycaster();
-    pointer = new THREE.Vector2();
+    params.raycaster = new THREE.Raycaster();
+    params.pointer = new THREE.Vector2();
 
     const geometry = new THREE.PlaneGeometry(1000, 1000);
     geometry.rotateX(-Math.PI / 2);
 
-    plane = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial({ visible: false }));
-    scene.add(plane);
+    params.plane = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial({ visible: false }));
+    params.scene.add(params.plane);
 
-    objects.push(plane);
+    objects.push(params.plane);
 
     const ambientLight = new THREE.AmbientLight(0x606060, 3);
-    scene.add(ambientLight);
+    params.scene.add(ambientLight);
 
     const directionalLight = new THREE.DirectionalLight(0xffffff, 3);
     directionalLight.position.set(1, 0.75, 0.5).normalize();
-    scene.add(directionalLight);
+    params.scene.add(directionalLight);
 
-    renderer = new THREE.WebGLRenderer({ antialias: true });
-    renderer.setPixelRatio(window.devicePixelRatio || 1);
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    element.appendChild(renderer.domElement);
-
-    controls = new OrbitControls(camera, renderer.domElement);
-    controls.update();
+    params.renderer = new THREE.WebGLRenderer({ antialias: true });
+    params.renderer.setPixelRatio(window.devicePixelRatio || 1);
+    params.renderer.setSize(window.innerWidth, window.innerHeight);
+    element.appendChild(params.renderer.domElement);
   };
 
-  const onPointerMove = (event: MouseEvent) => {
-    pointer.set((event.clientX / window.innerWidth) * 2 - 1, -(event.clientY / window.innerHeight) * 2 + 1);
-    raycaster.setFromCamera(pointer, camera);
+  const onPointerMove = (event: PointerEvent) => {
+    params.pointer.set((event.clientX / window.innerWidth) * 2 - 1, -(event.clientY / window.innerHeight) * 2 + 1);
+    params.raycaster.setFromCamera(params.pointer, params.camera);
 
-    const intersects = raycaster.intersectObjects(objects, false);
+    const intersects = params.raycaster.intersectObjects(objects, false);
 
     if (intersects.length > 0) {
       const intersect = intersects[0];
 
-      rollOverMesh.position.copy(intersect.point).add(intersect.face.normal);
-      rollOverMesh.position.divideScalar(50).floor().multiplyScalar(50).addScalar(25);
+      params.rollOverMesh.position.copy(intersect.point).add(intersect.face.normal);
+      params.rollOverMesh.position.divideScalar(50).floor().multiplyScalar(50).addScalar(25);
       render();
     }
   };
 
-  const onPointerDown = (event: MouseEvent) => {
-    if (!isEdit) return;
+  const onPointerDown = (event: PointerEvent) => {
+    if (!params.isEditor) return;
 
-    pointer.set((event.clientX / window.innerWidth) * 2 - 1, -(event.clientY / window.innerHeight) * 2 + 1);
-    raycaster.setFromCamera(pointer, camera);
+    params.pointer.set((event.clientX / window.innerWidth) * 2 - 1, -(event.clientY / window.innerHeight) * 2 + 1);
+    params.raycaster.setFromCamera(params.pointer, params.camera);
 
-    const intersects = raycaster.intersectObjects(objects, false);
+    const intersects = params.raycaster.intersectObjects(objects, false);
 
     if (intersects.length > 0) {
       const intersect = intersects[0];
-      if (isShiftDown) {
-        if (intersect.object !== plane) {
-          scene.remove(intersect.object);
+      if (params.isShiftDown) {
+        if (intersect.object !== params.plane) {
+          params.scene.remove(intersect.object);
           objects.splice(objects.indexOf(intersect.object as any), 1);
         }
       } else {
-        const voxel = new THREE.Mesh(cubeGeo, cubeMaterial);
+        const voxel = new THREE.Mesh(params.cubeGeo, params.cubeMaterial);
         voxel.position.copy(intersect.point).add(intersect.face.normal);
         voxel.position.divideScalar(50).floor().multiplyScalar(50).addScalar(25);
-        scene.add(voxel);
+        params.scene.add(voxel);
 
         objects.push(voxel);
       }
@@ -114,38 +115,39 @@ export const useThree = () => {
   };
 
   const onDocumentKeyDown = (event: KeyboardEvent) => {
-    switch (event.keyCode) {
-      case 16: // shift
-        isShiftDown = true;
+    switch (event.code) {
+      case 'ShiftLeft':
+      case 'ShiftRight':
+        params.isShiftDown = true;
         break;
-      case 73: // I or i
-        isEdit = !isEdit;
+      case 'KeyI':
+        params.isEditor = !params.isEditor;
         break;
       default:
-        break;
+        console.warn(`按键【${event.code}】不符合指定类型`);
     }
   };
 
   const onDocumentKeyUp = (event: KeyboardEvent) => {
-    switch (event.keyCode) {
-      case 16:
-        isShiftDown = false;
+    switch (event.code) {
+      case 'ShiftLeft':
+      case 'ShiftRight':
+        params.isShiftDown = false;
         break;
       default:
-        break;
+        console.warn(`按键【${event.code}】不符合指定类型`);
     }
   };
 
   const render = () => {
-    renderer.render(scene, camera);
+    params.renderer.render(params.scene, params.camera);
   };
 
   const onWindowResize = () => {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
+    params.camera.aspect = window.innerWidth / window.innerHeight;
+    params.camera.updateProjectionMatrix();
 
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    controls.update();
+    params.renderer.setSize(window.innerWidth, window.innerHeight);
     render();
   };
 
